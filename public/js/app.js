@@ -25423,12 +25423,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    return {
       tasks: [],
       users: [],
       priorities: [],
@@ -25440,17 +25437,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       editSelectedSprintId: "",
       showCreateModal: false,
       showEditModal: false,
-      labelsInput: "",
-      editLabelsInput: ""
-    }, "showEditModal", false), "editTask", null), "editDescription", ""), "editSprint", ""), "newTask", {
-      summary: "",
-      description: "",
-      assignee: "",
-      priority: "",
-      status: "",
-      sprint: "",
-      labels: []
-    }), "editTask", null);
+      editTask: null,
+      editDescription: "",
+      newTask: {
+        summary: "",
+        description: "",
+        assignee: "",
+        priority: "",
+        status: "",
+        sprint: ""
+      }
+    };
   },
   created: function created() {
     this.fetchTasks();
@@ -25459,23 +25456,26 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.fetchStatuses();
     this.fetchBoards();
   },
-  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+  methods: {
+    openCreateModal: function openCreateModal() {
+      this.showCreateModal = true;
+      this.resetNewTask();
+    },
+    closeCreateModal: function closeCreateModal() {
+      this.showCreateModal = false;
+    },
     openEditModal: function openEditModal(task) {
-      var _this$editTask$fields;
-      this.editTask = JSON.parse(JSON.stringify(task)); // deep clone to avoid immediate binding
-      this.editLabelsInput = (this.editTask.fields.labels || []).join(", ");
-      this.editDescription = ((_this$editTask$fields = this.editTask.fields.description) === null || _this$editTask$fields === void 0 || (_this$editTask$fields = _this$editTask$fields.content) === null || _this$editTask$fields === void 0 || (_this$editTask$fields = _this$editTask$fields[0]) === null || _this$editTask$fields === void 0 || (_this$editTask$fields = _this$editTask$fields.content) === null || _this$editTask$fields === void 0 || (_this$editTask$fields = _this$editTask$fields[0]) === null || _this$editTask$fields === void 0 ? void 0 : _this$editTask$fields.text) || "";
-      var sprints = this.editTask.fields.customfield_10020;
+      var _task$fields$descript;
+      this.editTask = JSON.parse(JSON.stringify(task));
+      if (!this.editTask.fields.assignee) {
+        this.editTask.fields.assignee = {};
+      }
+      this.editDescription = ((_task$fields$descript = task.fields.description) === null || _task$fields$descript === void 0 || (_task$fields$descript = _task$fields$descript.content) === null || _task$fields$descript === void 0 || (_task$fields$descript = _task$fields$descript[0]) === null || _task$fields$descript === void 0 || (_task$fields$descript = _task$fields$descript.content) === null || _task$fields$descript === void 0 || (_task$fields$descript = _task$fields$descript[0]) === null || _task$fields$descript === void 0 ? void 0 : _task$fields$descript.text) || "";
+      var sprints = task.fields.customfield_10020;
       if (Array.isArray(sprints) && sprints.length) {
+        var _lastSprint$match;
         var lastSprint = sprints[sprints.length - 1];
-        if (typeof lastSprint === "string") {
-          var match = lastSprint.match(/id=(\d+)/);
-          this.editSelectedSprintId = match ? match[1] : "";
-        } else if (_typeof(lastSprint) === "object" && lastSprint.id) {
-          this.editSelectedSprintId = lastSprint.id;
-        } else {
-          this.editSelectedSprintId = "";
-        }
+        this.editSelectedSprintId = _typeof(lastSprint) === "object" ? lastSprint.id : ((_lastSprint$match = lastSprint.match(/id=(\d+)/)) === null || _lastSprint$match === void 0 ? void 0 : _lastSprint$match[1]) || "";
       } else {
         this.editSelectedSprintId = "";
       }
@@ -25484,9 +25484,23 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     closeEditModal: function closeEditModal() {
       this.showEditModal = false;
       this.editTask = null;
-      this.editLabelsInput = "";
       this.editDescription = "";
-      this.editSprint = "";
+    },
+    resetNewTask: function resetNewTask() {
+      this.newTask = {
+        summary: "",
+        description: "",
+        assignee: "",
+        priority: "",
+        status: "",
+        sprint: ""
+      };
+    },
+    onEditAssigneeChange: function onEditAssigneeChange(accountId) {
+      if (!this.editTask.fields.assignee) {
+        this.editTask.fields.assignee = {};
+      }
+      this.editTask.fields.assignee.accountId = accountId;
     },
     fetchTasks: function fetchTasks() {
       var _this = this;
@@ -25512,110 +25526,85 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         _this4.statuses = res.data;
       });
     },
-    openCreateModal: function openCreateModal() {
-      this.showCreateModal = true;
-      this.resetNewTask();
+    fetchBoards: function fetchBoards() {
+      var _this5 = this;
+      this.$axios.get("/api/jira/boards").then(function (res) {
+        _this5.boards = res.data.values || [];
+        if (_this5.boards.length) {
+          _this5.selectedBoardId = _this5.boards[0].id;
+          _this5.fetchSprints(_this5.selectedBoardId);
+        }
+      });
     },
-    closeCreateModal: function closeCreateModal() {
-      this.showCreateModal = false;
-    }
-  }, "closeEditModal", function closeEditModal() {
-    this.showEditModal = false;
-    this.editTask = null;
-    this.editLabelsInput = "";
-  }), "resetNewTask", function resetNewTask() {
-    this.newTask = {
-      summary: "",
-      description: "",
-      assignee: "",
-      priority: "",
-      status: "",
-      sprint: "",
-      labels: []
-    };
-    this.labelsInput = "";
-  }), "createTask", function createTask() {
-    var _this5 = this;
-    var payload = {
-      summary: this.newTask.summary,
-      description: this.newTask.description,
-      labels: this.labelsInput ? this.labelsInput.split(",").map(function (s) {
-        return s.trim();
-      }) : [],
-      assignee: this.newTask.assignee ? {
-        accountId: this.newTask.assignee
-      } : null,
-      priority: this.newTask.priority || null,
-      status: this.newTask.status || null,
-      sprint: this.selectedSprintId ? Number(this.selectedSprintId) : null
-    };
-    this.$axios.post("/api/jira/tasks", payload).then(function (res) {
-      alert("Task created: ".concat(res.data.key));
-      _this5.closeCreateModal();
-      _this5.fetchTasks();
-    });
-  }), "getSprintName", function getSprintName(fields) {
-    var sprints = fields["customfield_10020"];
-    if (Array.isArray(sprints) && sprints.length) {
-      var lastSprint = sprints[sprints.length - 1];
-      if (typeof lastSprint === "string" && lastSprint.match) {
-        var match = lastSprint.match(/name=([^,]*)/);
-        return match ? match[1] : "N/A";
-      } else if (lastSprint && _typeof(lastSprint) === "object") {
-        return lastSprint.name || "N/A";
+    fetchSprints: function fetchSprints(boardId) {
+      var _this6 = this;
+      this.$axios.get("/api/jira/sprints", {
+        params: {
+          board_id: boardId
+        }
+      }).then(function (res) {
+        _this6.sprints = res.data.values || [];
+      });
+    },
+    createTask: function createTask() {
+      var _this7 = this;
+      var payload = {
+        summary: this.newTask.summary,
+        description: this.newTask.description,
+        assignee: this.newTask.assignee ? {
+          accountId: this.newTask.assignee
+        } : null,
+        priority: this.newTask.priority || null,
+        status: this.newTask.status || null,
+        sprint: this.selectedSprintId ? Number(this.selectedSprintId) : null
+      };
+      this.$axios.post("/api/jira/tasks", payload).then(function (res) {
+        alert("Task created: ".concat(res.data.key));
+        _this7.closeCreateModal();
+        _this7.fetchTasks();
+      });
+    },
+    updateTask: function updateTask() {
+      var _this$editTask,
+        _this$editTask$fields,
+        _this$editTask$fields2,
+        _this8 = this;
+      if (!((_this$editTask = this.editTask) !== null && _this$editTask !== void 0 && _this$editTask.key)) {
+        alert("No task selected to update.");
+        return;
       }
-    }
-    return "N/A";
-  }), "updateTask", function updateTask() {
-    var _this$editTask$fields2,
-      _this6 = this;
-    if (!this.editTask || !this.editTask.key) {
-      alert("No task selected to update.");
-      return;
-    }
-    var payload = {
-      summary: this.editTask.fields.summary,
-      description: this.editDescription,
-      labels: this.editLabelsInput ? this.editLabelsInput.split(",").map(function (s) {
-        return s.trim();
-      }) : [],
-      assignee: this.editTask.fields.assignee ? {
-        accountId: this.editTask.fields.assignee.accountId
-      } : null,
-      priority: ((_this$editTask$fields2 = this.editTask.fields.priority) === null || _this$editTask$fields2 === void 0 ? void 0 : _this$editTask$fields2.id) || null,
-      sprint: this.selectedSprintId ? Number(this.selectedSprintId) : null
-    };
-    this.$axios.put("/api/jira/tasks/".concat(this.editTask.key), payload).then(function () {
-      alert("Task updated successfully");
-      _this6.closeEditModal();
-      _this6.fetchTasks();
-    })["catch"](function (err) {
-      console.error(err);
-      alert("Failed to update task");
-    });
-  }), "fetchBoards", function fetchBoards() {
-    var _this7 = this;
-    this.$axios.get("/api/jira/boards").then(function (res) {
-      _this7.boards = res.data.values || [];
-      if (_this7.boards.length) {
-        _this7.selectedBoardId = _this7.boards[0].id;
-        _this7.fetchSprints(_this7.selectedBoardId);
+      var payload = {
+        summary: this.editTask.fields.summary,
+        description: this.editDescription,
+        assignee: (_this$editTask$fields = this.editTask.fields.assignee) !== null && _this$editTask$fields !== void 0 && _this$editTask$fields.accountId ? {
+          accountId: this.editTask.fields.assignee.accountId
+        } : null,
+        priority: ((_this$editTask$fields2 = this.editTask.fields.priority) === null || _this$editTask$fields2 === void 0 ? void 0 : _this$editTask$fields2.id) || null,
+        sprint: this.editSelectedSprintId ? Number(this.editSelectedSprintId) : null
+      };
+      this.$axios.put("/api/jira/tasks/".concat(this.editTask.key), payload).then(function () {
+        alert("Task updated successfully");
+        _this8.closeEditModal();
+        _this8.fetchTasks();
+      })["catch"](function (err) {
+        console.error(err);
+        alert("Failed to update task");
+      });
+    },
+    getSprintName: function getSprintName(fields) {
+      var sprints = fields["customfield_10020"];
+      if (Array.isArray(sprints) && sprints.length) {
+        var lastSprint = sprints[sprints.length - 1];
+        if (typeof lastSprint === "string") {
+          var match = lastSprint.match(/name=([^,]*)/);
+          return match ? match[1] : "N/A";
+        } else if (_typeof(lastSprint) === "object") {
+          return lastSprint.name || "N/A";
+        }
       }
-    })["catch"](function (err) {
-      console.error("Failed to fetch boards", err);
-    });
-  }), "fetchSprints", function fetchSprints(boardId) {
-    var _this8 = this;
-    this.$axios.get("/api/jira/sprints", {
-      params: {
-        board_id: boardId
-      }
-    }).then(function (res) {
-      _this8.sprints = res.data.values || [];
-    })["catch"](function (err) {
-      console.error("Failed to fetch sprints", err);
-    });
-  })
+      return "N/A";
+    }
+  }
 });
 
 /***/ }),
@@ -25914,64 +25903,54 @@ var _hoisted_8 = ["value"];
 var _hoisted_9 = ["value"];
 var _hoisted_10 = ["value"];
 var _hoisted_11 = ["value"];
-var _hoisted_12 = {
+var _hoisted_12 = ["value"];
+var _hoisted_13 = {
   key: 2,
   "class": "table mt-4"
 };
-var _hoisted_13 = {
-  key: 0
-};
-var _hoisted_14 = {
-  key: 1
-};
-var _hoisted_15 = ["onClick"];
-var _hoisted_16 = {
+var _hoisted_14 = ["onClick"];
+var _hoisted_15 = {
   key: 3
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  var _$data$editTask$field;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "title"
   }, "Jira Task Dashboard", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.openCreateModal && $options.openCreateModal.apply($options, arguments);
     })
-  }, " Add Task "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CREATE TASK MODAL "), $data.showCreateModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Add Task"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CREATE TASK MODAL "), $data.showCreateModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "modal-backdrop",
-    onClick: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onClick: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.closeCreateModal && $options.closeCreateModal.apply($options, arguments);
     }, ["self"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Create New Task", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Create New Task", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.newTask.summary = $event;
     }),
     placeholder: "Task Summary",
     "class": "form-control mb-2"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.newTask.summary]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.newTask.summary]]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Assignee", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.newTask.description = $event;
-    }),
-    placeholder: "Task Description",
-    "class": "form-control mb-2"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.newTask.description]]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Assignee", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.newTask.assignee = $event;
     }),
     "class": "form-control mb-2"
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Unassigned", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.users, function (user) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: user.accountId,
       value: user.accountId
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.displayName), 9 /* TEXT, PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newTask.assignee]]), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Priority", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newTask.assignee]]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Priority", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.newTask.priority = $event;
     }),
     "class": "form-control mb-2"
-  }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     disabled: "",
     value: ""
   }, "Select Priority", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.priorities, function (p) {
@@ -25979,12 +25958,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: p.id,
       value: p.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p.name), 9 /* TEXT, PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newTask.priority]]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Status", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newTask.priority]]), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Status", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.newTask.status = $event;
     }),
     "class": "form-control mb-2"
-  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     disabled: "",
     value: ""
   }, "Select Status", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.statuses, function (s) {
@@ -25992,129 +25971,107 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: s.id,
       value: s.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(s.name), 9 /* TEXT, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newTask.status]]), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Sprint", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newTask.status]]), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Sprint", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.selectedSprintId = $event;
     }),
     "class": "form-control mb-2"
-  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "No Sprint", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.sprints, function (sprint) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: sprint.id,
       value: sprint.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sprint.name), 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSprintId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-      return $data.labelsInput = $event;
-    }),
-    placeholder: "Labels (comma separated)",
-    "class": "form-control mb-2"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.labelsInput]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSprintId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.createTask && $options.createTask.apply($options, arguments);
     })
   }, " Save Changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-secondary ml-2",
-    onClick: _cache[9] || (_cache[9] = function () {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.closeCreateModal && $options.closeCreateModal.apply($options, arguments);
     })
   }, " Cancel ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" EDIT TASK MODAL "), $data.showEditModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 1,
     "class": "modal-backdrop",
-    onClick: _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onClick: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.closeEditModal && $options.closeEditModal.apply($options, arguments);
     }, ["self"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Edit Task", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Edit Task", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.editTask.fields.summary = $event;
     }),
     placeholder: "Task Summary",
     "class": "form-control mb-2"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.editTask.fields.summary]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-      return $data.editDescription = $event;
-    }),
-    placeholder: "Task Description",
-    "class": "form-control mb-2"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.editDescription]]), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Assignee", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-      return $data.editTask.fields.assignee.accountId = $event;
-    }),
-    "class": "form-control mb-2"
-  }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.editTask.fields.summary]]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Assignee", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control mb-2",
+    value: ((_$data$editTask$field = $data.editTask.fields.assignee) === null || _$data$editTask$field === void 0 ? void 0 : _$data$editTask$field.accountId) || '',
+    onChange: _cache[10] || (_cache[10] = function ($event) {
+      return $options.onEditAssigneeChange($event.target.value);
+    })
+  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Unassigned", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.users, function (user) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: user.accountId,
       value: user.accountId
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.displayName), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editTask.fields.assignee.accountId]]), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Priority", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.displayName), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_8), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Priority", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.editTask.fields.priority.id = $event;
     }),
     "class": "form-control mb-2"
-  }, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     disabled: "",
     value: ""
   }, "Select Priority", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.priorities, function (p) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: p.id,
       value: p.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p.name), 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editTask.fields.priority.id]]), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Status", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(p.name), 9 /* TEXT, PROPS */, _hoisted_10);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editTask.fields.priority.id]]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Status", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.editTask.fields.status.id = $event;
     }),
     disabled: "",
     "class": "form-control mb-2"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Status typically requires transitions, so disable editing for now "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: $data.editTask.fields.status.id
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.editTask.fields.status.name), 9 /* TEXT, PROPS */, _hoisted_10)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editTask.fields.status.id]]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Sprint", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.editTask.fields.status.name), 9 /* TEXT, PROPS */, _hoisted_11)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editTask.fields.status.id]]), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Sprint", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.editSelectedSprintId = $event;
     }),
     "class": "form-control mb-2"
-  }, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "No Sprint", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.sprints, function (sprint) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: sprint.id,
       value: sprint.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sprint.name), 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editSelectedSprintId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-      return $data.editLabelsInput = $event;
-    }),
-    placeholder: "Labels (comma separated)",
-    "class": "form-control mb-2"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.editLabelsInput]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sprint.name), 9 /* TEXT, PROPS */, _hoisted_12);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.editSelectedSprintId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
-    onClick: _cache[18] || (_cache[18] = function () {
+    onClick: _cache[14] || (_cache[14] = function () {
       return $options.updateTask && $options.updateTask.apply($options, arguments);
     })
   }, " Save Changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-secondary ml-2",
-    onClick: _cache[19] || (_cache[19] = function () {
+    onClick: _cache[15] || (_cache[15] = function () {
       return $options.closeEditModal && $options.closeEditModal.apply($options, arguments);
     })
-  }, " Cancel ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TASK TABLE "), $data.tasks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("table", _hoisted_12, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ID"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Key"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Summary"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Assignee"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Status"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Priority"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Labels"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sprint"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Project"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Created"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Action")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.tasks, function (task) {
-    var _task$fields$assignee, _task$fields$status, _task$fields$priority, _task$fields$labels, _task$fields$project;
+  }, " Cancel ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TASK TABLE "), $data.tasks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("table", _hoisted_13, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ID"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Key"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Summary"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Assignee"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Status"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Priority"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sprint"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Project"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Created"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Action")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.tasks, function (task) {
+    var _task$fields$assignee, _task$fields$status, _task$fields$priority, _task$fields$project;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: task.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.key), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.fields.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$assignee = task.fields.assignee) === null || _task$fields$assignee === void 0 ? void 0 : _task$fields$assignee.displayName) || "Unassigned"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$status = task.fields.status) === null || _task$fields$status === void 0 ? void 0 : _task$fields$status.name) || "N/A"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$priority = task.fields.priority) === null || _task$fields$priority === void 0 ? void 0 : _task$fields$priority.name) || "N/A"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(_task$fields$labels = task.fields.labels) !== null && _task$fields$labels !== void 0 && _task$fields$labels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(task.fields.labels, function (label, i) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-        key: i,
-        "class": "badge"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(label), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "-"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getSprintName(task.fields)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$project = task.fields.project) === null || _task$fields$project === void 0 ? void 0 : _task$fields$project.name) || "N/A"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(task.fields.created).toLocaleString()), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.key), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task.fields.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$assignee = task.fields.assignee) === null || _task$fields$assignee === void 0 ? void 0 : _task$fields$assignee.displayName) || "Unassigned"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$status = task.fields.status) === null || _task$fields$status === void 0 ? void 0 : _task$fields$status.name) || "N/A"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$priority = task.fields.priority) === null || _task$fields$priority === void 0 ? void 0 : _task$fields$priority.name) || "N/A"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getSprintName(task.fields)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_task$fields$project = task.fields.project) === null || _task$fields$project === void 0 ? void 0 : _task$fields$project.name) || "N/A"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(task.fields.created).toLocaleString()), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-sm btn-info",
       onClick: function onClick($event) {
         return $options.openEditModal(task);
       }
-    }, " Edit ", 8 /* PROPS */, _hoisted_15)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_16, "No tasks found."))]);
+    }, " Edit ", 8 /* PROPS */, _hoisted_14)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_15, "No tasks found."))]);
 }
 
 /***/ }),
@@ -30851,7 +30808,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-4c12364f] {\n    padding: 20px;\n}\n.title[data-v-4c12364f] {\n    font-size: 24px;\n    font-weight: bold;\n    margin-bottom: 20px;\n}\n.modal-backdrop[data-v-4c12364f] {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background: rgba(0, 0, 0, 0.45);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    z-index: 1050;\n}\n.modal-content[data-v-4c12364f] {\n    background: #fff;\n    padding: 24px;\n    border-radius: 8px;\n    width: 400px;\n    max-width: 90%;\n}\n.badge[data-v-4c12364f] {\n    display: inline-block;\n    padding: 3px 8px;\n    font-size: 12px;\n    background-color: #e0e0e0;\n    border-radius: 12px;\n    margin-right: 4px;\n    color: #333;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-4c12364f] {\n  padding: 20px;\n}\n.title[data-v-4c12364f] {\n  font-size: 24px;\n  font-weight: bold;\n  margin-bottom: 20px;\n}\n.modal-backdrop[data-v-4c12364f] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.45);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1050;\n}\n.modal-content[data-v-4c12364f] {\n  background: #fff;\n  padding: 24px;\n  border-radius: 8px;\n  width: 400px;\n  max-width: 90%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

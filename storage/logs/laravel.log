@@ -270,3 +270,181 @@
 [2025-06-08 13:38:13] local.INFO: Fetching Jira statuses  
 [2025-06-08 13:38:14] local.INFO: Fetching Jira boards  
 [2025-06-08 13:38:14] local.INFO: Fetching sprints for board: 1  
+[2025-06-08 13:44:20] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-08 13:44:21] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-08 13:44:21] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-08 13:44:22] local.INFO: Fetching Jira priorities  
+[2025-06-08 13:44:22] local.INFO: Fetching Jira statuses  
+[2025-06-08 13:44:22] local.INFO: Fetching Jira boards  
+[2025-06-08 13:44:27] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-08 13:44:28] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-08 13:44:28] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-08 13:44:28] local.INFO: Fetching Jira priorities  
+[2025-06-08 13:44:28] local.INFO: Fetching Jira statuses  
+[2025-06-08 13:44:29] local.INFO: Fetching Jira boards  
+[2025-06-08 13:44:29] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:43:39] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:43:41] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:43:41] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:43:42] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:43:43] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:43:43] local.INFO: Fetching Jira boards  
+[2025-06-09 06:43:50] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:43:51] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:43:51] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:43:51] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:43:52] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:43:53] local.INFO: Fetching Jira boards  
+[2025-06-09 06:43:54] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:43:57] local.INFO: Sending Jira update issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue/SCRUM-11","data":{"fields":{"summary":"Task 2","description":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":""}]}]},"labels":[],"assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"4"}}}} 
+[2025-06-09 06:43:59] local.INFO: Jira task updated successfully {"taskKey":"SCRUM-11"} 
+[2025-06-09 06:44:04] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:44:04] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:44:25] local.INFO: Sending Jira update issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue/SCRUM-11","data":{"fields":{"summary":"Task 2","description":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":""}]}]},"labels":["PHP"],"assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"4"}}}} 
+[2025-06-09 06:44:26] local.INFO: Jira task updated successfully {"taskKey":"SCRUM-11"} 
+[2025-06-09 06:44:28] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:44:29] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:44:32] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:44:33] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:44:33] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:44:34] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:44:35] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:44:35] local.INFO: Fetching Jira boards  
+[2025-06-09 06:44:36] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:46:54] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:46:55] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:46:55] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:46:56] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:46:57] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:46:58] local.INFO: Fetching Jira boards  
+[2025-06-09 06:46:58] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:47:12] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:47:13] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:47:13] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:47:14] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:47:14] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:47:15] local.INFO: Fetching Jira boards  
+[2025-06-09 06:47:15] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:49:13] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:49:14] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:49:14] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:49:15] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:49:15] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:49:16] local.INFO: Fetching Jira boards  
+[2025-06-09 06:49:17] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:51:05] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:51:06] local.INFO: Successfully fetched Jira tasks {"tasks_count":4} 
+[2025-06-09 06:51:06] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 06:51:07] local.INFO: Fetching Jira priorities  
+[2025-06-09 06:51:07] local.INFO: Fetching Jira statuses  
+[2025-06-09 06:51:08] local.INFO: Fetching Jira boards  
+[2025-06-09 06:51:09] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 06:51:22] local.INFO: Sending Jira create issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue","data":{"fields":{"project":{"key":"SCRUM"},"summary":"Task 1","description":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":"task 1"}]}]},"issuetype":{"name":"Task"},"assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"1"},"customfield_10020":1}}} 
+[2025-06-09 06:51:23] local.INFO: Jira task created successfully {"response":{"id":"10099","key":"SCRUM-15","self":"https://manetejas00.atlassian.net/rest/api/3/issue/10099"}} 
+[2025-06-09 06:51:25] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:51:26] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 06:51:31] local.INFO: Sending Jira update issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue/SCRUM-15","data":{"fields":{"summary":"Task 1","description":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"type":"text","text":""}]}]},"assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"2"},"customfield_10020":1}}} 
+[2025-06-09 06:51:32] local.INFO: Jira task updated successfully {"taskKey":"SCRUM-15"} 
+[2025-06-09 06:51:34] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 06:51:35] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:04:51] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:04:52] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:04:52] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:04:53] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:04:54] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:04:54] local.INFO: Fetching Jira boards  
+[2025-06-09 07:04:55] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:05:18] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:05:18] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:05:18] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:05:19] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:05:20] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:05:20] local.INFO: Fetching Jira boards  
+[2025-06-09 07:05:21] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:05:32] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:05:33] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:05:33] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:05:33] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:05:34] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:05:35] local.INFO: Fetching Jira boards  
+[2025-06-09 07:05:35] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:06:06] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:06:06] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:06:07] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:06:08] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:06:08] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:06:08] local.INFO: Fetching Jira boards  
+[2025-06-09 07:06:09] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:06:20] local.INFO: Sending Jira create issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue","data":{"fields":{"project":{"key":"SCRUM"},"summary":"Task 2","issuetype":{"name":"Task"},"priority":{"id":"5"},"customfield_10020":1}}} 
+[2025-06-09 07:06:21] local.INFO: Jira task created successfully {"response":{"id":"10100","key":"SCRUM-16","self":"https://manetejas00.atlassian.net/rest/api/3/issue/10100"}} 
+[2025-06-09 07:06:23] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:06:24] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:06:45] local.INFO: Sending Jira create issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue","data":{"fields":{"project":{"key":"SCRUM"},"summary":"task 3","issuetype":{"name":"Task"},"assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"1"},"customfield_10020":1}}} 
+[2025-06-09 07:06:47] local.INFO: Jira task created successfully {"response":{"id":"10101","key":"SCRUM-17","self":"https://manetejas00.atlassian.net/rest/api/3/issue/10101"}} 
+[2025-06-09 07:06:48] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:06:49] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:07:40] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:07:40] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:07:40] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:07:41] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:07:41] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:07:42] local.INFO: Fetching Jira boards  
+[2025-06-09 07:07:43] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:08:01] local.INFO: Sending Jira create issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue","data":{"fields":{"project":{"key":"SCRUM"},"summary":"Task 4","issuetype":{"name":"Task"},"priority":{"id":"1"},"customfield_10020":1}}} 
+[2025-06-09 07:08:02] local.INFO: Jira task created successfully {"response":{"id":"10102","key":"SCRUM-18","self":"https://manetejas00.atlassian.net/rest/api/3/issue/10102"}} 
+[2025-06-09 07:08:03] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:08:04] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:10:09] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:10:10] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:10:10] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:10:10] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:10:11] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:10:12] local.INFO: Fetching Jira boards  
+[2025-06-09 07:10:12] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:10:39] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:10:40] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:10:40] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:10:41] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:10:41] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:10:42] local.INFO: Fetching Jira boards  
+[2025-06-09 07:10:42] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:12:05] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:12:05] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:12:06] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:12:06] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:12:07] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:12:07] local.INFO: Fetching Jira boards  
+[2025-06-09 07:12:08] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:12:16] local.INFO: Sending Jira update issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue/SCRUM-18","data":{"fields":{"summary":"Task 4","assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"1"},"customfield_10020":1}}} 
+[2025-06-09 07:12:17] local.INFO: Jira task updated successfully {"taskKey":"SCRUM-18"} 
+[2025-06-09 07:12:18] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:12:19] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:12:24] local.INFO: Sending Jira update issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue/SCRUM-18","data":{"fields":{"summary":"Task 4","priority":{"id":"1"},"customfield_10020":1}}} 
+[2025-06-09 07:12:25] local.INFO: Jira task updated successfully {"taskKey":"SCRUM-18"} 
+[2025-06-09 07:12:26] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:12:27] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:12:30] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:12:31] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:12:31] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:12:32] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:12:32] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:12:33] local.INFO: Fetching Jira boards  
+[2025-06-09 07:12:33] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:12:51] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:12:51] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:12:51] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:12:52] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:12:53] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:12:53] local.INFO: Fetching Jira boards  
+[2025-06-09 07:12:54] local.INFO: Fetching sprints for board: 1  
+[2025-06-09 07:13:02] local.INFO: Sending Jira update issue request {"url":"https://manetejas00.atlassian.net/rest/api/3/issue/SCRUM-18","data":{"fields":{"summary":"Task 4","assignee":{"accountId":"60ed56fba211b1006942ebd9"},"priority":{"id":"2"},"customfield_10020":1}}} 
+[2025-06-09 07:13:03] local.INFO: Jira task updated successfully {"taskKey":"SCRUM-18"} 
+[2025-06-09 07:13:04] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:13:05] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:20:20] local.INFO: Fetching Jira tasks for project: SCRUM  
+[2025-06-09 07:20:21] local.INFO: Successfully fetched Jira tasks {"tasks_count":5} 
+[2025-06-09 07:20:21] local.INFO: Fetching assignable users for project: SCRUM  
+[2025-06-09 07:20:21] local.INFO: Fetching Jira priorities  
+[2025-06-09 07:20:22] local.INFO: Fetching Jira statuses  
+[2025-06-09 07:20:23] local.INFO: Fetching Jira boards  
+[2025-06-09 07:20:23] local.INFO: Fetching sprints for board: 1  

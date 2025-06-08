@@ -34,43 +34,25 @@ class JiraController extends Controller
         return response()->json($tasks);
     }
 
-    // Example controller method that receives frontend payload and sends to Jira
     public function createTask(Request $request)
     {
         $data = $request->validate([
             'summary' => 'required|string',
-            'description' => 'nullable|string',
-            'labels' => 'nullable|array',
             'assignee' => 'nullable|array',
             'priority' => 'nullable|string',
             'status' => 'nullable|string',
             'sprint' => 'nullable|integer',
         ]);
 
-        // Convert sprint to int if possible, else null
         $sprintId = is_numeric($data['sprint'] ?? null) ? (int) $data['sprint'] : null;
 
         $jiraPayload = [
             'fields' => [
-                'project' => ['key' => 'SCRUM'], // Adjust project key if needed
+                'project' => ['key' => 'SCRUM'],
                 'summary' => $data['summary'],
-                'description' => [
-                    'type' => 'doc',
-                    'version' => 1,
-                    'content' => [
-                        [
-                            'type' => 'paragraph',
-                            'content' => [
-                                ['type' => 'text', 'text' => $data['description'] ?? ''],
-                            ],
-                        ],
-                    ],
-                ],
                 'issuetype' => ['name' => 'Task'],
-                'labels' => $data['labels'] ?? [],
                 'assignee' => isset($data['assignee']['accountId']) ? ['accountId' => $data['assignee']['accountId']] : null,
                 'priority' => $data['priority'] ? ['id' => $data['priority']] : null,
-                // 'status' is usually not settable on create, you might need to omit or handle differently
             ],
         ];
 
@@ -78,10 +60,8 @@ class JiraController extends Controller
             $jiraPayload['fields']['customfield_10020'] = $sprintId;
         }
 
-        // Clean null fields
         $jiraPayload['fields'] = array_filter($jiraPayload['fields'], fn($v) => $v !== null);
 
-        // Call Jira API using your service (pseudo-code)
         $response = $this->jiraService->createTask($jiraPayload);
 
         return response()->json($response);
@@ -135,8 +115,6 @@ class JiraController extends Controller
     {
         $data = $request->validate([
             'summary' => 'sometimes|string',
-            'description' => 'sometimes|string|nullable',
-            'labels' => 'sometimes|array',
             'assignee' => 'sometimes|array|nullable',
             'priority' => 'sometimes|string|nullable',
             'status' => 'sometimes|string|nullable',
@@ -151,25 +129,6 @@ class JiraController extends Controller
             $jiraPayload['fields']['summary'] = $data['summary'];
         }
 
-        if (array_key_exists('description', $data)) {
-            $jiraPayload['fields']['description'] = [
-                'type' => 'doc',
-                'version' => 1,
-                'content' => [
-                    [
-                        'type' => 'paragraph',
-                        'content' => [
-                            ['type' => 'text', 'text' => $data['description'] ?? ''],
-                        ],
-                    ],
-                ],
-            ];
-        }
-
-        if (isset($data['labels'])) {
-            $jiraPayload['fields']['labels'] = $data['labels'];
-        }
-
         if (isset($data['assignee'])) {
             $jiraPayload['fields']['assignee'] = isset($data['assignee']['accountId'])
                 ? ['accountId' => $data['assignee']['accountId']]
@@ -180,16 +139,10 @@ class JiraController extends Controller
             $jiraPayload['fields']['priority'] = $data['priority'] ? ['id' => $data['priority']] : null;
         }
 
-        if (isset($data['status'])) {
-            // Usually status update requires a transition, so here you might want to handle transitions separately.
-            // For simplicity, skipping status update in this example.
-        }
-
         if (array_key_exists('sprint', $data)) {
             $jiraPayload['fields']['customfield_10020'] = $data['sprint'] ?? null;
         }
 
-        // Clean null fields
         $jiraPayload['fields'] = array_filter($jiraPayload['fields'], fn($v) => $v !== null);
 
         $response = $this->jiraService->updateTask($taskKey, $jiraPayload);

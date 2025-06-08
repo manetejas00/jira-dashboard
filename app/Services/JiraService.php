@@ -130,7 +130,6 @@ class JiraService
             'data' => $data,
         ]);
 
-        // Jira update is a PUT request without expecting a response body on success
         $response = Http::withHeaders($this->getAuthHeaders())->put($url, $data);
 
         if ($response->failed()) {
@@ -141,7 +140,6 @@ class JiraService
             'taskKey' => $taskKey,
         ]);
 
-        // Jira returns 204 No Content on success, so no body usually
         return ['success' => true];
     }
 
